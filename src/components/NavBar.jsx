@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 
-export default function NavBar() {
+export default function NavBar({ scrollToSection, refs }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -26,56 +26,97 @@ export default function NavBar() {
       </button>
       <ul className="hidden md:flex gap-16 items-center">
         <li>
-          <a href="">About</a>
+          <a
+            href="#about"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection(refs.aboutRef);
+            }}
+          >
+            About
+          </a>
         </li>
         <li>
-          <a href="">Service</a>
+          <a
+            href="#service"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection(refs.serviceRef);
+            }}
+          >
+            Service
+          </a>
         </li>
         <li>
-          <a href="">Album</a>
+          <a
+            href="#album"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection(refs.albumRef);
+            }}
+          >
+            Album
+          </a>
         </li>
         <li>
-          <a href="">Stories</a>
+          <a
+            href="#stories"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection(refs.storiesRef);
+            }}
+          >
+            Stories
+          </a>
         </li>
         <li>
-          <a href="">Blog</a>
+          <a
+            href="#blog"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection(refs.blogRef);
+            }}
+          >
+            Blog
+          </a>
         </li>
       </ul>
 
       <button className="hidden md:flex cursor-pointer bg-white text-orange-600 font-semibold rounded-4xl px-6 py-2">
         Contact Us
       </button>
+
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-black flex flex-col items-start px-8 py-6 gap-4 md:hidden">
           <ul className="flex flex-col gap-4 w-full">
-            <li>
-              <a href="#" onClick={closeMenu}>
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#" onClick={closeMenu}>
-                Service
-              </a>
-            </li>
-            <li>
-              <a href="#" onClick={closeMenu}>
-                Album
-              </a>
-            </li>
-            <li>
-              <a href="#" onClick={closeMenu}>
-                Stories
-              </a>
-            </li>
-            <li>
-              <a href="#" onClick={closeMenu}>
-                Blog
-              </a>
-            </li>
+            {[
+              "aboutRef",
+              "serviceRef",
+              "albumRef",
+              "storiesRef",
+              "blogRef",
+            ].map((key, i) => {
+              const labels = ["About", "Service", "Album", "Stories", "Blog"];
+              return (
+                <li key={key}>
+                  <a
+                    href={"#" + labels[i].toLowerCase()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(refs[key]);
+                      closeMenu();
+                    }}
+                  >
+                    {labels[i]}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
           <button
-            onClick={closeMenu}
+            onClick={() => {
+              closeMenu();
+            }}
             className="bg-white text-orange-600 font-semibold rounded-4xl w-full py-2"
           >
             Contact Us
